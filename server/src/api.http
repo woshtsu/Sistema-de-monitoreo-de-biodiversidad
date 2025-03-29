@@ -1,0 +1,18 @@
+GET http://localhost:1234/
+
+### Para crear un animal
+
+POST http://localhost:1234/create
+Content-Type: application/json
+
+{
+  "id": 322,
+  "name": "Pablo",
+  "species": "Woman",
+  "family": "HomoSapiens",
+  "habitat": "Disco",
+  "place_of_found": "Peru"
+}
+
+### Buscar 322
+GET http://localhost:1234/search

@@ -47,7 +47,7 @@ export function MyMap() {
       </Map>
 
       <div>
-        <h1>{animal}</h1>
+        <h1>Leon</h1>
         <span>el león</span>
         {error && <p style={{ color: "red" }}>{error}</p>}
         {data && <img src={data} alt="Animal" />}
