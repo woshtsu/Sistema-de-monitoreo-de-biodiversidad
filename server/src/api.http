@@ -1,10 +1,16 @@
+### LOS GET's
 GET http://localhost:1234/
+### Llamar a todos los animales
+GET http://localhost:1234/animals
+### Buscar por id
+GET http://localhost:1234/animals/4
+### Filtrar por Familia "family": "Felidae" y peso mayo q
+GET http://localhost:1234/animals?family=fElIdae&weight_kg=60
 
+### POST POST POST POST POST
 ### Para crear un animal
-
 POST http://localhost:1234/create
 Content-Type: application/json
-
 {
   "id": 322,
   "name": "Pablo",
@@ -13,6 +19,3 @@ Content-Type: application/json
   "habitat": "Disco",
   "place_of_found": "Peru"
 }
-
-### Buscar 322
-GET http://localhost:1234/search

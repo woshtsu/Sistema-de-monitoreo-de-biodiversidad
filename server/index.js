@@ -1,14 +1,42 @@
 import express from 'express'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+const animalJSON = require('./src/fakeanimals.json')
+
 
 const app = express()
+app.disable('x-powered-by')
 
-const PORT = process.env.PORT ?? 1234
-
+app.use(express.json())
 
 app.get('/', (req, res) => {
-  res.status(200).send('<h1>Pagina Principalñ</h1>')
+  res.send('PAGINA PRINCIPAL')
+})
+
+
+app.get('/animals', (req, res) => {
+  const { family, weight_kg } = req.query
+  if (family && weight_kg) {
+    const animal = animalJSON.filter(
+      animal =>
+        animal.family.toLocaleLowerCase() === family.toLocaleLowerCase() &&
+        animal.weight_kg >= weight_kg)
+    return res.json(animal)
+  }
+  res.json(animalJSON)
+})
+
+app.get('/animals/:id', (req, res, next) => {
+  const { id } = req.params
+  const data = animalJSON.find(animal => animal.id === Number(id)) //No olvidar que params retorna string
+  if (!data) return next()
+  res.json(data)
+})
+
+app.post('/create', (req, res) => {
+  res.send(req.body)
 })
 
 app.use(async (req, res) => {
@@ -22,6 +50,7 @@ app.use(async (req, res) => {
   }
 })
 
+const PORT = process.env.PORT ?? 1234
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`)
 })
