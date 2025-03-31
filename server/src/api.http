@@ -9,13 +9,25 @@ GET http://localhost:1234/animals?family=fElIdae&weight_kg=60
 
 ### POST POST POST POST POST
 ### Para crear un animal
-POST http://localhost:1234/create
+POST http://localhost:1234/animals
 Content-Type: application/json
+
 {
-  "id": 322,
+  "sql" : "drop table animals",
   "name": "Pablo",
-  "species": "Woman",
-  "family": "HomoSapiens",
-  "habitat": "Disco",
-  "place_of_found": "Peru"
+  "species": "Homo",
+  "family": "Campos",
+  "habitat": "La u",
+  "weight_kg": 65,
+  "height_cm": 172,
+  "image": "https://scontent.fjau1-1.fna.fbcdn.net/v/t39.30808-6/341380074_1338483886729660_4865480858772963586_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=WOB92kbwG-UQ7kNvgFdxcEG&_nc_zt=23&_nc_ht=scontent.fjau1-1.fna&_nc_gid=L5TaT_l377Qa9Nc5UmA80w&oh=00_AYHXZNsf8OQ7apFlMhDGg4UUWpjpS7wo4lN4c6qvloUAbQ&oe=67F0027C"
+}
+
+### Actualizar un animal
+PATCH http://localhost:1234/animals/1
+Content-Type: application/json
+
+{
+  "name":"JOSEF ORE",
+  "species": "cat"
 }

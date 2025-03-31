@@ -4,7 +4,8 @@ import { join } from 'node:path'
 import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
 const animalJSON = require('./src/fakeanimals.json')
-
+import { randomInt } from 'node:crypto'
+import { validateAnimal, validatePartialAnimal } from './src/validateAnimal.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -35,9 +36,47 @@ app.get('/animals/:id', (req, res, next) => {
   res.json(data)
 })
 
-app.post('/create', (req, res) => {
-  res.send(req.body)
+// ------------------------------ POST
+
+app.post('/animals', (req, res) => {
+  const result = validateAnimal(req.body)
+  console.log(result);
+
+  if (result.error) {
+    return res.status(400).json({ error: JSON.parse(result.error.message) })
+  }
+
+  const newAnimal = {
+    id: randomInt(100),
+    ...result.data
+  }
+  //animalJSON.push(newAnimal) //guardar newAnimal
+  res.status(201).send(newAnimal)
 })
+
+//------------------------------- PATCH
+
+app.patch('/animals/:id', (req, res, next) => {
+  const { id } = req.params
+  const result = validatePartialAnimal(req.body)
+  if (!result.success) {
+    return res.status(422).json({ error: JSON.parse(result.error.message) })
+  }
+  const animalIndex = animalJSON.findIndex(animal => animal.id === Number(id))
+
+  if (animalIndex === -1) {
+    return next()
+  }
+  const updateAnimal = {
+    ...animalJSON[animalIndex],
+    ...result.data
+  }
+  //animalJSON[animalIndex] = updateAnimal //guardar updateAnimal
+
+  res.status(200).json(updateAnimal)
+})
+
+// ------------------------------ ERROR 404
 
 app.use(async (req, res) => {
   const filePath = join(process.cwd(), 'public', 'images', '404-error.svg')
