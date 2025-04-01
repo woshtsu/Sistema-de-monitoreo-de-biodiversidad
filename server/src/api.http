@@ -1,15 +1,15 @@
 ### LOS GET's
-GET http://localhost:1234/
+GET http://localhost:2812/
 ### Llamar a todos los animales
-GET http://localhost:1234/animals
+GET http://localhost:2812/animals
 ### Buscar por id
-GET http://localhost:1234/animals/4
+GET http://localhost:2812/animals/4
 ### Filtrar por Familia "family": "Felidae" y peso mayo q
-GET http://localhost:1234/animals?family=fElIdae&weight_kg=60
+GET http://localhost:2812/animals?family=fElIdae&weight_kg=60
 
 ### POST POST POST POST POST
 ### Para crear un animal
-POST http://localhost:1234/animals
+POST http://localhost:2812/animals
 Content-Type: application/json
 
 {
@@ -24,10 +24,21 @@ Content-Type: application/json
 }
 
 ### Actualizar un animal
-PATCH http://localhost:1234/animals/1
+PATCH http://localhost:2812/animals/1
 Content-Type: application/json
 
 {
   "name":"JOSEF ORE",
   "species": "cat"
+}
+### Borrar un animal por id
+DELETE http://localhost:2812/animals/1
+
+### Actualizar datos update
+PATCH http://localhost:2812/animals/4
+Content-Type: application/json
+
+{
+  "name" : "name 2",
+  "species": "AWDDAW"
 }
