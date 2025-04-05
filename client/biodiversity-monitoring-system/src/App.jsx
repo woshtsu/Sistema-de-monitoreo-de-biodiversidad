@@ -1,37 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { MyMap } from './MapPigeon'
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyles from './styles/globalStyles.js';
+import theme from './styles/theme.js';
+import MainLayout from './layouts/MainLayout.jsx';
+import FormLogin from './components/FormLogin.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <MyMap></MyMap>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <Routes>
+        {/* Ruta principal con layout */}
+        <Route path="/" element={<MainLayout />}>
+          {/* Ruta index (página principal) */}
+          <Route index element={<h1>Página Principal</h1>} />
+          {/* Ruta about */}
+          <Route path="about" element={<h1>About</h1>} />
+        </Route>
+        {/* Ruta login (sin layout) */}
+        <Route path="login" element={<FormLogin />} />
+      </Routes>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
