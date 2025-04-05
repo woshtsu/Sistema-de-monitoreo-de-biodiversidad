@@ -12,10 +12,10 @@ export default function Form() {
           <p className="page-link">
             <span className="page-link-label">Forgot Password?</span>
           </p>
-          <button className="form-btn">Log in</button>
+          <a className="form-btn" href='/' >Log in</a>
         </form>
         <p className="sign-up-label">
-          Don't have an account?<span className="sign-up-link">Sign up</span>
+          Don't have an account?<a className="sign-up-link" href="/signup">Sign up</a>
         </p>
         <div className="buttons-container">
           <div className="apple-login-button">
@@ -49,7 +49,8 @@ const StyledWrapper = styled.div`
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
   min-height: 100vh; /* Asegura que el wrapper ocupe toda la altura de la pantalla */
-  background-color: #f5f5f5; /* Color de fondo opcional */
+  background-color:rgb(39, 31, 31); /* Color de fondo opcional */
+
 
   .form-container {
     width: 350px;
@@ -86,7 +87,7 @@ const StyledWrapper = styled.div`
     box-sizing: border-box;
     padding: 12px 15px;
     background-color: white;
-    color: black
+    color: black;
   }
 
   .page-link {
@@ -110,6 +111,9 @@ const StyledWrapper = styled.div`
   }
 
   .form-btn {
+    display: flex; /* Activa Flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;
     padding: 10px 15px;
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
           "Lucida Sans Unicode", Geneva, Verdana, sans-serif;

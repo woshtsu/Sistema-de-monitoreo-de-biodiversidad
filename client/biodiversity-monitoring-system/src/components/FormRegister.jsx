@@ -30,19 +30,25 @@ export default function Form() {
           <span>Confirm password</span>
         </label>
         <button className="submit">Submit</button>
-        <p className="signin">Already have an acount ? <a href="#">Signin</a> </p>
+        <p className="signin">Already have an acount ? <a href="/login">Signin</a> </p>
       </form>
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  min-height: 100vh; /* Asegura que el wrapper ocupe toda la altura de la pantalla */
+  background-color:rgb(39, 31, 31); /* Color de fondo opcional */
+
   .form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     max-width: 350px;
-    background-color: #fff;
+    background-color:rgb(235, 235, 235);
     padding: 20px;
     border-radius: 20px;
     position: relative;
@@ -109,11 +115,13 @@ const StyledWrapper = styled.div`
   }
 
   .form label .input {
+    color: black;
     width: 100%;
     padding: 10px 10px 20px 10px;
     outline: 0;
     border: 1px solid rgba(105, 105, 105, 0.397);
     border-radius: 10px;
+    background-color: transparent; /* Asegura que el input no tenga fondo */
   }
 
   .form label .input + span {

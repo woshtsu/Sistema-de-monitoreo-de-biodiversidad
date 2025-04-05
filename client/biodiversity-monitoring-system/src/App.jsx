@@ -4,6 +4,7 @@ import GlobalStyles from './styles/globalStyles.js';
 import theme from './styles/theme.js';
 import MainLayout from './layouts/MainLayout.jsx';
 import FormLogin from './components/FormLogin.jsx'
+import FormRegister from './components/FormRegister.jsx'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         </Route>
         {/* Ruta login (sin layout) */}
         <Route path="login" element={<FormLogin />} />
+        <Route path="signup" element={<FormRegister />} />
       </Routes>
     </ThemeProvider>
   );
