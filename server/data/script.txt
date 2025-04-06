@@ -1,0 +1,164 @@
+-- Base de datos principal
+CREATE DATABASE IF NOT EXISTS biodiversidad_monitoring;
+USE biodiversidad_monitoring;
+
+-- Tabla Roles
+CREATE TABLE Roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    descripcion TEXT
+);
+INSERT INTO Roles (nombre, descripcion) VALUES
+('Administrador', 'Tiene acceso total al sistema y puede gestionar usuarios y datos.'),
+('Biologo', 'Profesional autorizado para registrar observaciones y gestionar datos científicos.'),
+('Usuario General', 'Usuario básico que puede dejar comentarios generales.');
+
+-- Tabla Permisos
+CREATE TABLE Permisos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    descripcion TEXT
+);
+
+-- Tabla Roles_Permisos (relación muchos a muchos entre Roles y Permisos)
+CREATE TABLE Roles_Permisos (
+    rol_id INT NOT NULL,
+    permiso_id INT NOT NULL,
+    PRIMARY KEY (rol_id, permiso_id),
+    FOREIGN KEY (rol_id) REFERENCES Roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (permiso_id) REFERENCES Permisos(id) ON DELETE CASCADE
+);
+-- Tabla Usuarios (biólogos/ecologistas)
+CREATE TABLE Usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL, -- Almacena contraseñas cifradas
+    licencia_bilogica VARCHAR(50) UNIQUE, -- Código de licencia del biólogo
+    rol_id INT,
+    estado ENUM('activo', 'suspendido') DEFAULT 'activo',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (rol_id) REFERENCES Roles(id) ON DELETE SET NULL
+);
+-- Insertar usuarios
+INSERT INTO Usuarios (nombre, email, password, licencia_bilogica, rol_id, estado) VALUES
+('Ricardo Porras', 'ricardoporras@gmail.com', 'hashed_password_789', NULL, 1, null),
+('María López', 'maria.lopez@example.com', 'hashed_password_456', NULL, 3, 'activo'), -- Usuario General
+('Juan Pérez', 'juan.perez@example.com', 'hashed_password_123', 'LIC12345', 2, 'activo'), -- Biólogo
+('Carlos Ramírez', 'carlos.ramirez@example.com', 'hashed_password_789', NULL, NULL, 'suspendido'); -- Sin rol asignado
+
+
+-- Tabla Logs_Acciones (para registrar acciones de los usuarios)
+CREATE TABLE Logs_Acciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    accion VARCHAR(255) NOT NULL,
+    detalles TEXT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
+);
+-- Insertar logs de acciones
+INSERT INTO Logs_Acciones (usuario_id, accion, detalles) VALUES
+(1, 'creó una observación', 'Observó un jaguar en el río.'),
+(2, 'registró un comentario', 'Comentó sobre la plataforma.'),
+(3, 'intentó iniciar sesión', 'Inicio de sesión fallido.');
+-- Tabla Comentarios_Usuarios (comentarios realizados por usuarios registrados)
+CREATE TABLE Comentarios_Usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    comentario TEXT NOT NULL,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
+);
+-- Insertar comentarios de usuarios registrados
+INSERT INTO Comentarios_Usuarios (usuario_id, comentario) VALUES
+(1, 'Excelente plataforma para compartir observaciones.'),
+(2, 'Me encanta poder contribuir al monitoreo de especies.'),
+(3, 'Espero poder usar esta herramienta pronto.');
+-- Tabla Comentarios_Generales (comentarios de personas sin sesión)
+CREATE TABLE Comentarios_Generales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_anonimo VARCHAR(100) NOT NULL, -- Nombre proporcionado por el usuario
+    comentario TEXT NOT NULL,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Insertar comentarios generales
+INSERT INTO Comentarios_Generales (nombre_anonimo, comentario) VALUES
+('Ana García', 'Gracias por crear esta herramienta tan útil.'),
+('Pedro Martínez', 'He aprendido mucho sobre biodiversidad aquí.'),
+('Luis Fernández', 'Espero que sigan mejorando la plataforma.');
+-- Tabla Especies
+CREATE TABLE Especies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_comun VARCHAR(100) NOT NULL,
+    nombre_cientifico VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    categoria ENUM('en peligro', 'vulnerable', 'amenazada', 'segura') DEFAULT 'segura',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Insertar especies
+INSERT INTO Especies (nombre_comun, nombre_cientifico, descripcion, categoria) VALUES
+('Jaguar', 'Panthera onca', 'Gran felino de América Latina.', 'en peligro'),
+('Tortuga Marina', 'Chelonia mydas', 'Especie marina protegida.', 'vulnerable'),
+('Colibrí Esmeralda', 'Chlorostilbon mellisugus', 'Ave pequeña y colorida.', 'segura');
+-- Tabla Observaciones
+CREATE TABLE Observaciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    especie_id INT NOT NULL,
+    ubicacion POINT NOT NULL, -- Para coordenadas geográficas (latitud, longitud)
+    fecha_observacion DATE NOT NULL,
+    descripcion TEXT,
+    imagen_url VARCHAR(255),
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (especie_id) REFERENCES Especies(id) ON DELETE CASCADE
+);
+-- Insertar observaciones
+INSERT INTO Observaciones (usuario_id, especie_id, ubicacion, fecha_observacion, descripcion, imagen_url) VALUES
+(1, 1, ST_GeomFromText('POINT(-73.994458 40.750042)'), '2023-10-01', 'Observé un jaguar cerca del río.', 'https://ejemplo.com/jaguar.jpg'),
+(2, 2, ST_GeomFromText('POINT(-73.985697 40.748441)'), '2023-10-02', 'Vi una tortuga marina en la playa.', 'https://ejemplo.com/tortuga.jpg'),
+(1, 3, ST_GeomFromText('POINT(-73.973060 40.750594)'), '2023-10-03', 'Fotografié un colibrí esmeralda.', 'https://ejemplo.com/colibri.jpg');
+
+-- Tabla Monitoreo_Poblacional
+CREATE TABLE Monitoreo_Poblacional (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    especie_id INT NOT NULL,
+    fecha_monitoreo DATE NOT NULL,
+    poblacion_estimada INT NOT NULL,
+    ubicacion POINT NOT NULL, -- Para coordenadas geográficas
+    comentarios TEXT,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (especie_id) REFERENCES Especies(id) ON DELETE CASCADE
+);
+-- Insertar monitoreo poblacional
+INSERT INTO Monitoreo_Poblacional (especie_id, fecha_monitoreo, poblacion_estimada, ubicacion, comentarios) VALUES
+(1, '2023-09-01', 500, ST_GeomFromText('POINT(-73.994458 40.750042)'), 'Estimación basada en cámaras trampa.'),
+(2, '2023-09-02', 2000, ST_GeomFromText('POINT(-73.985697 40.748441)'), 'Monitoreo realizado por satélite.'),
+(3, '2023-09-03', 10000, ST_GeomFromText('POINT(-73.973060 40.750594)'), 'Estudio basado en avistamientos.');
+-- Tabla Actividades_Humanas
+CREATE TABLE Actividades_Humanas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_actividad ENUM('agricultura', 'turismo', 'minería', 'urbanización', 'otro') NOT NULL,
+    ubicacion POINT NOT NULL, -- Para coordenadas geográficas
+    fecha_actividad DATE NOT NULL,
+    descripcion TEXT,
+    impacto_estimado ENUM('bajo', 'medio', 'alto') DEFAULT 'medio',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Insertar actividades humanas
+INSERT INTO Actividades_Humanas (tipo_actividad, ubicacion, fecha_actividad, descripcion, impacto_estimado) VALUES
+('turismo', ST_GeomFromText('POINT(-73.994458 40.750042)'), '2023-10-01', 'Turismo en áreas naturales protegidas.', 'medio'),
+('minería', ST_GeomFromText('POINT(-73.985697 40.748441)'), '2023-10-02', 'Actividad minera cerca del río.', 'alto'),
+('agricultura', ST_GeomFromText('POINT(-73.973060 40.750594)'), '2023-10-03', 'Cultivos en zonas forestales.', 'bajo');
+
+SELECT * FROM Roles;
+SELECT * FROM Usuarios;
+SELECT * FROM Especies;
+SELECT * FROM Observaciones;
+SELECT * FROM Monitoreo_Poblacional;
+SELECT * FROM Actividades_Humanas;
+SELECT * FROM Comentarios_Usuarios;
+SELECT * FROM Comentarios_Generales;
+SELECT * FROM Logs_Acciones;

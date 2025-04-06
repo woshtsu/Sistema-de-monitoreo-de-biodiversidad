@@ -5,7 +5,7 @@ GET http://localhost:2812/animals
 ### Buscar por id
 GET http://localhost:2812/animals/3
 ### Filtrar por Familia "family": "Felidae" y peso mayo q
-GET http://localhost:2812/animals?family=fElIdae&weight_kg=60
+GET http://localhost:2812/animals/search?nombre_comun=Jaguar
 
 ### POST POST POST POST POST
 ### Para crear un animal

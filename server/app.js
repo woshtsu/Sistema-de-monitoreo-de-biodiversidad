@@ -14,5 +14,5 @@ app.use('/animals', animalsRouter)
 
 const desiredPort = process.env.PORT ?? 2812
 app.listen(desiredPort, () => {
-  console.log(`server listening on port htpp://localhost:${desiredPort}`)
+  console.log(`server listening on port http://localhost:${desiredPort}`)
 })
