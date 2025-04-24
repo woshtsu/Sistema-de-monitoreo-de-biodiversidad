@@ -9,6 +9,7 @@ export default function Header() {
       <Nav>
         <NavItem href="/">Home</NavItem>
         <NavItem href="/about">About</NavItem>
+        <NavItem href="/dashboard">Dashboard</NavItem>
         <NavItem href="/login">Cerrar Sesion</NavItem>
       </Nav>
     </StyledHeader>
