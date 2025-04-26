@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/globalStyles.js';
 import theme from './styles/theme.js';
@@ -6,27 +6,42 @@ import MainLayout from './layouts/MainLayout.jsx';
 import FormLogin from './components/FormLogin.jsx'
 import FormRegister from './components/FormRegister.jsx'
 import LineChart from './components/Grafica.jsx';
+import PageLayout from './layouts/PageLayout.jsx';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <Routes>
-        {/* Ruta principal con layout */}
-        <Route path="/" element={<MainLayout />}>
-          {/* Ruta index (página principal) */}
-          <Route index element={<h1>Página Principal</h1>} />
-          {/* Ruta about */}
-          <Route path="about" element={<h1>About</h1>} />
-          {/* Ruta Dashboard */}
-          <Route path="dashboard" element={<LineChart/ >} />
-        </Route>
-        {/* Ruta login (sin layout) */}
-        <Route path="login" element={<FormLogin />} />
-        <Route path="signup" element={<FormRegister />} />
-      </Routes>
+      <Router>
+        <Routes>
+          {/* Redirección desde la URL base */}
+          <Route path="/" element={<Navigate to="/page/animal" />} />
+
+          {/* Ruta principal con MainLayout */}
+          <Route path="/page" element={<MainLayout />}>
+            {/* Rutas dentro de PageLayout */}
+            <Route path="animal" element={<PageLayout />}>
+              {/* Contenido específico de cada subruta */}
+              <Route index element={<h1>Aquí irá la gráfica</h1>} />
+              <Route path="news" element={<h1>Noticias</h1>} />
+              <Route path="forecasts" element={<h1>Pronósticos</h1>} />
+              <Route path="forum" element={<h1>Foro</h1>} />
+              <Route path="academic-forum" element={<h1>Foro Académico</h1>} />
+              <Route path="location" element={<h1>Ubicación</h1>} />
+            </Route>
+
+            {/* Rutas dentro de MainLayout pero fuera de PageLayout */}
+            <Route path="about" element={<h1>Sobre nosotros</h1>} />
+            <Route path="dashboard" element={<LineChart />} />
+          </Route>
+
+          {/* Rutas sin MainLayout */}
+          <Route path="login" element={<FormLogin />} />
+          <Route path="signup" element={<FormRegister />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }
-
 export default App;
+

@@ -11,7 +11,7 @@ export default function Header() {
       {/* Contenedor del Logo */}
       <LogoContainer>
         <Logo src={logo} alt="Logo" />
-        <LogoText>TradingView</LogoText>
+        <LogoText>BioMonitoring</LogoText>
       </LogoContainer>
 
       {/* Barra de Búsqueda */}
@@ -24,6 +24,7 @@ export default function Header() {
       <Nav>
         <NavItem href="/">Home</NavItem>
         <NavItem href="/about">About</NavItem>
+        <NavItem href="/dashboard">Dashboard</NavItem>
         <NavItem href="/login">Cerrar Sesion</NavItem>
       </Nav>
 

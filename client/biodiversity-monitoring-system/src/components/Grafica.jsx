@@ -15,7 +15,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 // Componente principal
-export default function LineChart(){
+export default function LineChart() {
   const chartData = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'], // Etiquetas del eje X
     datasets: [
@@ -38,7 +38,7 @@ export default function LineChart(){
 
   return (
     <div style={{ width: '80%', margin: 'auto' }}>
-      <h2 style={{color: 'black'}}>Gráfico de Líneas</h2>
+      <h2 style={{ color: 'black' }}>Gráfico de Líneas</h2>
       <Line
         datasetIdKey="id" // Clave única para identificar datasets
         data={chartData}

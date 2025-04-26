@@ -12,7 +12,7 @@ export default function Form() {
           <p className="page-link">
             <span className="page-link-label">Forgot Password?</span>
           </p>
-          <a className="form-btn" href='/' >Log in</a>
+          <a className="form-btn" href='/page' >Log in</a>
         </form>
         <p className="sign-up-label">
           Don't have an account?<a className="sign-up-link" href="/signup">Sign up</a>
