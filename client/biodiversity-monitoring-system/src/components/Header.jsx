@@ -22,11 +22,9 @@ export default function Header() {
 
       {/* Navegación */}
       <Nav>
-        <NavItem href="/productos">Productos</NavItem>
-        <NavItem href="/comunidad">Comunidad</NavItem>
-        <NavItem href="/mercados">Mercados</NavItem>
-        <NavItem href="/brokers">Brokers</NavItem>
-        <NavItem href="/mas">Más</NavItem>
+        <NavItem href="/">Home</NavItem>
+        <NavItem href="/about">About</NavItem>
+        <NavItem href="/login">Cerrar Sesion</NavItem>
       </Nav>
 
       {/* Elementos de Usuario */}

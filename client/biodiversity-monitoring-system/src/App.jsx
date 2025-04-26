@@ -5,6 +5,7 @@ import theme from './styles/theme.js';
 import MainLayout from './layouts/MainLayout.jsx';
 import FormLogin from './components/FormLogin.jsx'
 import FormRegister from './components/FormRegister.jsx'
+import LineChart from './components/Grafica.jsx';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route index element={<h1>Página Principal</h1>} />
           {/* Ruta about */}
           <Route path="about" element={<h1>About</h1>} />
+          {/* Ruta Dashboard */}
+          <Route path="dashboard" element={<LineChart/ >} />
         </Route>
         {/* Ruta login (sin layout) */}
         <Route path="login" element={<FormLogin />} />
