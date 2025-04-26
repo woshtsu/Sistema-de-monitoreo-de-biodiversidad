@@ -1,59 +1,139 @@
-import React from 'react'
-import styled from 'styled-components'
-import logo from '../assets/icons/roblox.svg'
+import React from 'react';
+import styled from 'styled-components';
+import logo from '../assets/icons/roblox.svg'; // Logo actual
+import searchIcon from '../assets/icons/search.svg'; // Icono de búsqueda
+import userIcon from '../assets/icons/user.svg'; // Icono de usuario
 
+// Componente Header
 export default function Header() {
   return (
     <StyledHeader>
-      <Logo src={logo} alt="Logo" />
+      {/* Contenedor del Logo */}
+      <LogoContainer>
+        <Logo src={logo} alt="Logo" />
+        <LogoText>TradingView</LogoText>
+      </LogoContainer>
+
+      {/* Barra de Búsqueda */}
+      <SearchBar>
+        <SearchIcon src={searchIcon} alt="Buscar" />
+        <SearchInput type="text" placeholder="Buscar (Ctrl+K)" />
+      </SearchBar>
+
+      {/* Navegación */}
       <Nav>
-        <NavItem href="/">Home</NavItem>
-        <NavItem href="/about">About</NavItem>
-        <NavItem href="/login">Cerrar Sesion</NavItem>
+        <NavItem href="/productos">Productos</NavItem>
+        <NavItem href="/comunidad">Comunidad</NavItem>
+        <NavItem href="/mercados">Mercados</NavItem>
+        <NavItem href="/brokers">Brokers</NavItem>
+        <NavItem href="/mas">Más</NavItem>
       </Nav>
+
+      {/* Elementos de Usuario */}
+      <UserControls>
+        <span>ES</span>
+        <img src={userIcon} alt="Usuario" style={{ width: '20px', height: '20px' }} />
+        <StartButton>Empiece</StartButton>
+      </UserControls>
     </StyledHeader>
   );
-};
-
+}
+// Estilos para el Header
 const StyledHeader = styled.header`
   display: flex;
-  justify-content: space-between; /* Espacio entre el logo y los enlaces */
-  align-items: center; /* Alinea verticalmente los elementos */
-  padding: 1rem 2rem; /* Espaciado interno */
-  background-color: #282c34; /* Color de fondo oscuro */
-  color: white; /* Texto blanco */
-  width: 100%; /* Ocupa todo el ancho de la página */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  box-sizing: border-box; /* Incluye padding y borders en el cálculo del ancho */
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
+// Estilos para el contenedor del Logo
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+// Estilos para el Logo
 const Logo = styled.img`
-  width: 150px;
-  height: auto;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
-  }
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 `;
 
+// Estilos para el texto del Logo
+const LogoText = styled.span`
+  font-family: 'Arial', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000000;
+`;
+
+// Estilos para la barra de búsqueda
+const SearchBar = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 250px;
+`;
+
+// Estilos para el icono de búsqueda
+const SearchIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+`;
+
+// Estilos para el input de búsqueda
+const SearchInput = styled.input`
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  background: transparent;
+`;
+
+// Estilos para el contenedor de navegación
 const Nav = styled.nav`
   display: flex;
-  gap: 1rem; /* Espacio entre los enlaces */
+  gap: 20px;
 `;
 
+// Estilos para los enlaces de navegación
 const NavItem = styled.a`
-  color: white;
   text-decoration: none;
-  font-size: 1rem;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
   transition: color 0.3s ease;
 
   &:hover {
-    color: royalblue; /* Cambia el color al pasar el mouse */
-    text-decoration: underline;
+    color: #007bff; /* Azul claro al hover */
   }
+`;
 
-  @media (max-width: 768px) {
-    font-size: 0.9rem; /* Reduce el tamaño del texto en pantallas pequeñas */
+// Estilos para el contenedor de elementos de usuario
+const UserControls = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+
+// Estilos para el botón "Empiece"
+const StartButton = styled.button`
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff6f91; /* Morado claro */
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ff4e78; /* Morado más oscuro al hover */
   }
 `;

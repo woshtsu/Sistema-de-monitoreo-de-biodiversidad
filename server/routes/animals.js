@@ -7,9 +7,28 @@ import { validateAnimal, validatePartialAnimal } from "../src/validateAnimal.js"
 
 export const animalsRouter = Router()
 
-animalsRouter.get('/', async (req, res) => {
+animalsRouter.get('/all', async (req, res) => {
   const animalJSON = await animalsModel.getAll()
   res.json(animalJSON)
+})
+
+animalsRouter.get('/search', async (req, res) => {
+  const { name } = req.query
+  if (!name) {
+    return res.status(400).json({ error: 'El parámetro "nombre_comun" es requerido' });
+  }
+
+  try {
+    const animal = await animalsModel.getByName({ nombre_comun: name });
+
+    if (animal.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron resultados para el animal especificado' });
+    }
+
+    res.json(animal);
+  } catch (error) {
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 })
 
 animalsRouter.get('/:id', async (req, res) => {
@@ -18,28 +37,10 @@ animalsRouter.get('/:id', async (req, res) => {
   res.json(animal)
 })
 
-animalsRouter.get('/search', async (req, res) => {
-  const { nombre_comun } = req.query;
-  console.log('Nombre común recibido:', nombre_comun);
-  if (!nombre_comun) {
-    return res.status(400).json({ error: 'El parámetro "nombre_comun" es requerido' });
-  }
-  try {
 
-    const animal = await animalsModel.getByName({ name: nombre_comun });
 
-    if (animal.length === 0) {
-      return res.status(404).json({ message: 'No se encontraron resultados para el animal especificado' });
-    }
-
-    res.json(animal);
-  } catch (error) {
-    console.error('Error en /search:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
-})
 //------------------------------ POST
-animalsRouter.post('/', async (req, res) => {
+animalsRouter.post('/observation', async (req, res) => {
   const result = validateAnimal(req.body)
   if (result.error) {
     res.status(400).json({ error: JSON.parse(result.error.message) })

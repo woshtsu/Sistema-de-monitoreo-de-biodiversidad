@@ -1,11 +1,11 @@
 ### LOS GET's
 GET http://localhost:2812/
 ### Llamar a todos los animales
-GET http://localhost:2812/animals
+GET http://localhost:2812/animals/all
 ### Buscar por id
 GET http://localhost:2812/animals/3
-### Filtrar por Familia "family": "Felidae" y peso mayo q
-GET http://localhost:2812/animals/search?nombre_comun=Jaguar
+### 
+GET http://localhost:2812/animals/search?name=Jaguar
 
 ### POST POST POST POST POST
 ### Para crear un animal

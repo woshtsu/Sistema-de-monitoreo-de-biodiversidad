@@ -23,22 +23,22 @@ export class animalsModel {
     )
     return result
   }
-  static async getByName({ name }) {
-    console.log(name);
 
+  static async getByName({ nombre_comun }) {
     try {
       const [result, info] = await connection.query(
         `
-            SELECT 
-                e.nombre_comun AS especie,
-                ST_AsText(o.ubicacion) AS ubicacion_texto,
-                o.fecha_observacion,
-                o.descripcion
-            FROM Observaciones o
-            JOIN Especies e ON o.especie_id = e.id
-            WHERE e.nombre_comun = ?;
+        SELECT 
+            e.nombre_comun AS especie,
+            ST_X(o.ubicacion) AS longitud,
+            ST_Y(o.ubicacion) AS latitud,
+            o.fecha_observacion,
+            o.descripcion
+        FROM Observaciones o
+        JOIN Especies e ON o.especie_id = e.id
+        WHERE e.nombre_comun = ?;
             `,
-        [name]
+        [nombre_comun]
       )
       const formattedResult = result.map(row => ({
         especie: row.especie,
@@ -50,15 +50,27 @@ export class animalsModel {
         descripcion: row.descripcion
       }));
 
-      return formattedResult;
+      return formattedResult
+
     } catch (error) {
       console.error('Error en getByName:', error);
       throw new Error('Error al buscar el animal por nombre');
     }
   }
-  static async create({ input }) {
 
+  static async create({ input }) {
+    try {
+      await connection.beginTransaction()
+
+      const [result, info] = await connection.query(`
+          insert into 
+        `)
+      return result
+    } catch (err) {
+      return { error: JSON.parse(err) }
+    }
   }
+
   static async delete({ input }) {
 
   }
