@@ -45,7 +45,8 @@ export default function PageLayout({ valor }) {
 }
 const PageLayoutContainer = styled.div`
 padding: 20px;
-  background-color: #ffffff;
+  background-color:rgb(183, 179, 179);
+  color:rgb(32, 32, 31)
 `;
 
 const HeaderSection = styled.div`
@@ -110,5 +111,25 @@ const Navigation = styled.nav`
 `;
 
 const ContenedorDinamico = styled.div`
+  font: normal bold 26px/1.1 "Souci Sans";
+  letter-spacing: 2px;
+
   margin-top: 20px;
+
+  display: flex; /* flex sí o sí */
+  flex-direction: column; /* si quieres apilar varios componentes */
+  justify-content: center; /* centra verticalmente */
+  align-items: center; /* centra horizontalmente */
+
+  width: 100vw; /* 100% del ancho de la ventana */
+  height: 100vh; /* 100% de la altura de la ventana */
+
+  max-width: 100%;
+  max-height: 100%;
+  overflow: visible;
+
+  border: 4px solid rgba(0, 0, 0, 1);
+  border-radius: 9px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 6px 10px 0px 0px rgba(0, 0, 0, 0.3);
 `;

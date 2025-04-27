@@ -25,7 +25,7 @@ function App() {
             {/* Rutas dentro de PageLayout */}
             <Route path="animal" element={<PageLayout valor={bioSeleccionado} />}>
               {/* Contenido específico de cada subruta */}
-              <Route index element={<h1>Aquí irá la gráfica</h1>} />
+              <Route index element={<LineChart />} />
               <Route path="news" element={<h1>Noticias</h1>} />
               <Route path="forecasts" element={<h1>Pronósticos</h1>} />
               <Route path="forum" element={<h1>Foro</h1>} />

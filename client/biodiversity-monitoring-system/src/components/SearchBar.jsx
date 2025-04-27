@@ -12,6 +12,7 @@ const SearchComponent = ({ onSelect }) => {
   const inputRef = useRef(null); // Referencia al campo de entrada
   const suggestionsRef = useRef(null); // Referencia a la lista de sugerencias
 
+  console.log(data)
   // Cargar datos al iniciar
   useEffect(() => {
     const fetchData = async () => {

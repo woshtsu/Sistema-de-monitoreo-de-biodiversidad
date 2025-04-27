@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -37,7 +38,7 @@ export default function LineChart() {
   };
 
   return (
-    <div style={{ width: '80%', margin: 'auto' }}>
+    <ContenedorGrafico>
       <h2 style={{ color: 'black' }}>Gráfico de Líneas</h2>
       <Line
         datasetIdKey="id" // Clave única para identificar datasets
@@ -55,6 +56,15 @@ export default function LineChart() {
           },
         }}
       />
-    </div>
+    </ContenedorGrafico>
   );
 };
+
+const ContenedorGrafico = styled.div`
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column; /* NUEVO: apila verticalmente */
+  justify-content: center; /* centra el contenido verticalmente */
+  align-items: center;     /* centra el contenido horizontalmente */
+`
