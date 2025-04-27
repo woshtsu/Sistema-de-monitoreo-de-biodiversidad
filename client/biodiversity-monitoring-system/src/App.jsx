@@ -7,8 +7,11 @@ import FormLogin from './components/FormLogin.jsx'
 import FormRegister from './components/FormRegister.jsx'
 import LineChart from './components/Grafica.jsx';
 import PageLayout from './layouts/PageLayout.jsx';
+import { useState } from 'react';
 
 function App() {
+  const [bioSeleccionado, setBioSeleccionado] = useState(null);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -18,9 +21,9 @@ function App() {
           <Route path="/" element={<Navigate to="/page/animal" />} />
 
           {/* Ruta principal con MainLayout */}
-          <Route path="/page" element={<MainLayout />}>
+          <Route path="/page" element={<MainLayout onSelect={(valor) => setBioSeleccionado(valor)} />}>
             {/* Rutas dentro de PageLayout */}
-            <Route path="animal" element={<PageLayout />}>
+            <Route path="animal" element={<PageLayout valor={bioSeleccionado} />}>
               {/* Contenido específico de cada subruta */}
               <Route index element={<h1>Aquí irá la gráfica</h1>} />
               <Route path="news" element={<h1>Noticias</h1>} />

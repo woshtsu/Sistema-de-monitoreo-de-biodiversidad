@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import MyNavItem from './MyNavItem.jsx'
+import SearchComponent from './SearchBar.jsx'
 import logo from '../assets/icons/roblox.svg'; // Logo actual
-import searchIcon from '../assets/icons/search.svg'; // Icono de búsqueda
 import userIcon from '../assets/icons/user.svg'; // Icono de usuario
 
 // Componente Header
-export default function Header() {
+export default function Header({ onSelect }) {
   return (
     <StyledHeader>
       {/* Contenedor del Logo */}
@@ -15,17 +16,16 @@ export default function Header() {
       </LogoContainer>
 
       {/* Barra de Búsqueda */}
-      <SearchBar>
-        <SearchIcon src={searchIcon} alt="Buscar" />
-        <SearchInput type="text" placeholder="Buscar (Ctrl+K)" />
-      </SearchBar>
+      <SearchComponent onSelect={onSelect} />
 
       {/* Navegación */}
       <Nav>
-        <NavItem href="/">Home</NavItem>
-        <NavItem href="/about">About</NavItem>
-        <NavItem href="/dashboard">Dashboard</NavItem>
-        <NavItem href="/login">Cerrar Sesion</NavItem>
+        <MyNavItem to="animal">Home</MyNavItem>
+        <MyNavItem to="about">About</MyNavItem>
+        <MyNavItem to="dashboard">Dashboard</MyNavItem>
+        <a href="/login" style={{ textDecoration: 'none', color: '#333', fontSize: '16px', fontWeight: 'bold' }}>
+          Cerrar Sesión
+        </a>
       </Nav>
 
       {/* Elementos de Usuario */}
@@ -40,6 +40,7 @@ export default function Header() {
 // Estilos para el Header
 const StyledHeader = styled.header`
   display: flex;
+  color: black;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
@@ -69,14 +70,14 @@ const LogoText = styled.span`
 `;
 
 // Estilos para la barra de búsqueda
-const SearchBar = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 5px 10px;
-  width: 250px;
-`;
+// const SearchBar = styled.div`
+//   display: flex;
+//   align-items: center;
+//   border: 1px solid #ccc;
+//   border-radius: 20px;
+//   padding: 5px 10px;
+//   width: 250px;
+// `;
 
 // Estilos para el icono de búsqueda
 const SearchIcon = styled.img`
@@ -101,23 +102,24 @@ const Nav = styled.nav`
 `;
 
 // Estilos para los enlaces de navegación
-const NavItem = styled.a`
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-  transition: color 0.3s ease;
+// const NavItem = styled.a`
+//   text-decoration: none;
+//   color: #333;
+//   font-size: 16px;
+//   font-weight: 500;
+//   transition: color 0.3s ease;
 
-  &:hover {
-    color: #007bff; /* Azul claro al hover */
-  }
-`;
+//   &:hover {
+//     color: #007bff; /* Azul claro al hover */
+//   }
+// `;
 
 // Estilos para el contenedor de elementos de usuario
 const UserControls = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  color:black;
 `;
 
 // Estilos para el botón "Empiece"

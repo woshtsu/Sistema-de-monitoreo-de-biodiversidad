@@ -18,10 +18,10 @@ const MainContent = styled.main`
   background-color: #f5f5f5;
 `;
 
-export default function MainLayout() {
+export default function MainLayout({ onSelect }) {
   return (
     <LayoutContainer>
-      <Header />
+      <Header onSelect={onSelect} />
       <MainContent>
         {/* Aquí se renderizan las rutas hijas */}
         <Outlet />
